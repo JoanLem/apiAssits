@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "amazon.aws.region",
+    "type": "java.lang.String",
+    "description": "A description for 'amazon.aws.region'"
+  },
+  {
+    "name": "amazon.aws.secretkey",
+    "type": "java.lang.String",
+    "description": "A description for 'amazon.aws.secretkey'"
+  },
+  {
+    "name": "amazon.aws.accesskey",
+    "type": "java.lang.String",
+    "description": "A description for 'amazon.aws.accesskey'"
+  },
+  {
+    "name": "aws.dynamodb.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.dynamodb.endpoint'"
+  },
+  {
+    "name": "amazon.dynamodb.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'amazon.dynamodb.endpoint'"
+  }
+]}
