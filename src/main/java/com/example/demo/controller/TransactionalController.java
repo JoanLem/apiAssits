@@ -70,9 +70,9 @@ public class TransactionalController {
 				: new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(path = "/transactional", method = RequestMethod.GET)
-	public ResponseEntity<List<Transactional>> listTransactionals() {
-		List<Transactional> lstTransactional = transactionalService.getListTransactionals();
+	@RequestMapping(path = "/transactional/historial/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Transactional>> getListTransactionalsByAccount(@PathVariable("id") String id) {
+		List<Transactional> lstTransactional = transactionalService.getListTransactionalsByAccount(id);
 		if (lstTransactional.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

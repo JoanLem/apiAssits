@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.model.BankAccount;
 import com.example.demo.model.Transactional;
@@ -107,8 +108,8 @@ public class TransactionalService {
 		return true;
 	}
 
-	public List<Transactional> getListTransactionals() {
+	public List<Transactional> getListTransactionalsByAccount(String id) {
 		log.trace("Metodo Service getListTransactionals");
-		return transactionalRepository.getListTransaction();
+		return transactionalRepository.getListTransaction(id);
 	}
 }

@@ -9,11 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedList;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.example.demo.model.Transactional;
@@ -71,9 +74,15 @@ public class TransactionalRepository {
 		return id;
 	}
 	
-	public List<Transactional> getListTransaction(){
+	public List<Transactional> getListTransaction(String customerOrigin){
 		log.trace("Metodo listTransactions");
-		PaginatedList<Transactional> resultsTransaction= dynamoDBMapper.scan(Transactional.class, new DynamoDBScanExpression());
+		 DynamoDBQueryExpression<Transactional> queryExpression = new DynamoDBQueryExpression<Transactional>()
+				 .withIndexName("customerOriginIndex")
+				    .withConsistentRead(false)
+				    .withKeyConditionExpression("customerOrigin = :customerOrigin")
+				    .withExpressionAttributeValues(Map.of(":customerOrigin", new AttributeValue().withS(customerOrigin)));
+
+		PaginatedQueryList<Transactional> resultsTransaction = dynamoDBMapper.query(Transactional.class, queryExpression);
 		resultsTransaction.loadAllResults();
 		return resultsTransaction;
 	}

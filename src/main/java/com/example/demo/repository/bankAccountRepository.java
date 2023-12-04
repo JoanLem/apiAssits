@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.example.demo.model.BankAccount;
@@ -70,10 +69,9 @@ public class bankAccountRepository {
 		return id;
 	}
 	
-	public List<BankAccount> getListBankAccount(){
-		log.trace("Metodo listbankAccounts");
-		PaginatedList<BankAccount> resultsbankAccount= dynamoDBMapper.scan(BankAccount.class, new DynamoDBScanExpression());
-		resultsbankAccount.loadAllResults();
+	public BankAccount getBanckAccount(String id){
+		log.trace("Metodo getBanckAccount");
+		BankAccount resultsbankAccount= dynamoDBMapper.load(BankAccount.class, id);
 		return resultsbankAccount;
 	}
 }

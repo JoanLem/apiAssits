@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.BankAccount;
 import com.example.demo.service.BankAccountService;
+import com.grandapp.response.GeneralResponse;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
@@ -49,14 +49,33 @@ public class BankAccountController {
 		return banckAccountService.updateBanckAccount(id,data)?new ResponseEntity<>(HttpStatus.OK):new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-	@RequestMapping(path = "/account", method = RequestMethod.GET)
-	public ResponseEntity<List<BankAccount>> listBanckAccount(){
-		List<BankAccount> lstUsers=banckAccountService.getListBanckAccounts();
-		if(lstUsers.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(lstUsers,OK);
-	}
+	@RequestMapping(path = "/account/{id}", method = RequestMethod.GET)
+	public ResponseEntity<GeneralResponse<BankAccount>> BanckAccount(@PathVariable("id") String id){
+		
+		GeneralResponse<BankAccount> response = new GeneralResponse<>();
+		HttpStatus status = null;
+		try {
+			log.trace("Iniciando GetAccount() con {}", id);
+			BankAccount account=banckAccountService.getBanckAccount(id);
+			response.setMessage("Consulta Exitosa!");
+			response.setSuccess(true);
+			response.setData(account);
+			status = HttpStatus.OK;
+			if(account.getId().isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			log.info("GetAccount() Ejecutado con Éxito " + account);
 
+		} catch (Exception e) {
+
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			log.error("error generado " + e.getMessage());
+		}
+		return new ResponseEntity<>(response, status);
+		
+	}
+	
 
 }

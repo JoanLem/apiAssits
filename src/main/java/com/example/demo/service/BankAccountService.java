@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -57,8 +56,8 @@ public class BankAccountService {
 		}
 	}
 
-	public List<BankAccount> getListBanckAccounts() {
+	public BankAccount getBanckAccount(String id) {
 		log.trace("Metodo Service getListBanckAccounts");
-		return bankAccountRepository.getListBankAccount();
+		return bankAccountRepository.getBanckAccount(id);
 	}
 }
